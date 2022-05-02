@@ -114,7 +114,7 @@ Libraries are stateless contracts that don't store any state. Now when you call 
 
 There is a small caveat however. If you are writing your own libraries, you will need to deploy them and pay gas - but once deployed, it can be reused by other smart contracts without deploying it themselves. Since they don't store any state, libraries only need to be deployed once to the blockchain and are assigned an address that the Solidity compiler is smart enough to figure out itself. Therefore, if you use libraries from OpenZeppelin for example, they will not add to your deployment cost.
 
-## Early Condition Checks
+## Short Circuiting Conditionals
 If you are using (||) or (&&) it's better to write your conditions in such a way so that the least functions/variable values are executed or retrieved in order to determine if the entire statement is true or false.
 
 Since conditional checks will stop the second they find the first value which satisfies the condition, you should put the variables most likely to validate/invalidate the condition first. In OR conditions (||), try to put the variable with the highest likelihood of being `true` first, and in AND conditions (&&), try to put the variable with the highest likelihood of being `false` first. As soon as that variable is checked, the conditional can exit without needing to check the other values, thereby saving gas.
