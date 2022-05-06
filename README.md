@@ -26,7 +26,7 @@ uint8 num5;
 uint8 num1;
 uint8 num3;
 uint8 num4;
-uint8 num5
+uint8 num5;
 uint256 num2;
 ```
 
