@@ -30,7 +30,7 @@ uint8 num5;
 uint256 num2;
 ```
 
-The second one is better because in the second one solidity compiler will put all the `uint8`'s in one storage slot but in the first case it will put `uint8 num1` in one slot but now the next one it will see is a `uint256` which is in itself requires 32 bytes cause `256/8 bits = 32 bytes` so it cant be put in the same storage slot as `uint8 num1` so now it will require another storage slot. After that `uint8 num3, num4, num5` will be put in another storage slot. Thus the second example requires 3 storage slots as compared to the first example which requires only two storage slots.
+The second one is better because in the second one solidity compiler will put all the `uint8`'s in one storage slot but in the first case it will put `uint8 num1` in one slot but now the next one it will see is a `uint256` which is in itself requires 32 bytes cause `256/8 bits = 32 bytes` so it cant be put in the same storage slot as `uint8 num1` so now it will require another storage slot. After that `uint8 num3, num4, num5` will be put in another storage slot. Thus the second example requires 2 storage slots as compared to the first example which requires 3 storage slots.
 
 It's also important to note that elements in `memory` and `calldata` cannot be packed and are not optimized by solidity's compiler.
 
