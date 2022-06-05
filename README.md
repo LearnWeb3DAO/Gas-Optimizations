@@ -37,7 +37,7 @@ It's also important to note that elements in `memory` and `calldata` cannot be p
 ## Storage VS Memory
 
 Changing storage variables requires more gas than variables in memory.
-It's better to update storage variables at the end after all the logic has lready been implemented.
+It's better to update storage variables at the end after all the logic has already been implemented.
 
 So given two samples of code 
 
