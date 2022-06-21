@@ -4,7 +4,7 @@ In this tutorial, we will learn about some of the gas optimization techniques in
 
 ## Tips and Tricks
 
-### Packing your variables in Solidity
+### Variable Packing
 
 If you remember we talked about storage slots in one of our previous levels. Now the interesting point in solidity if you remember is that each storage slot is 32 bytes.
 
@@ -34,7 +34,9 @@ The second one is better because in the second one solidity compiler will put al
 
 It's also important to note that elements in `memory` and `calldata` cannot be packed and are not optimized by solidity's compiler.
 
-## Storage VS Memory
+<Quiz questionId="3f7890cd-ffdb-4fa2-8241-df57a9f4533e" />
+
+## Storage vs Memory
 
 Changing storage variables requires more gas than variables in memory.
 It's better to update storage variables at the end after all the logic has lready been implemented.
@@ -71,6 +73,8 @@ contract B {
 
 The second sample of code is more gas optimized because we are only writing to the storage variable `counter` only once as compared to the first sample where we were writing to storage in every iteration. Even though we are performing one extra write overall in the second code sample, the 10 writes to `memory` and 1 write to `storage` is still cheaper than 10 writes directly to `storage`.
 
+<Quiz questionId="bd7cd38d-d7f2-4078-a282-c5a7adde7405" />
+
 ## Fixed length and Variable-length variables
 We talked about how fixed length and variable length variables are stored. Fixed-length variables are stored in a stack whereas variable-length variables are stored in a heap. 
 
@@ -102,11 +106,16 @@ However, when your contract is creating functions that will only be called exter
 
 The same principle applies as to why it's cheaper to call `internal` functions rather than `public` functions. This is because when you call `internal` functions the arguments are passed as references of the variables and are not again copied into memory but that doesn't happen in the case of `public` functions.
 
+<Quiz questionId="291907c1-c12f-4b42-b600-d28c7d0fb51e" />
+
 ## Function modifiers
 
 This is a fascinating one because a few weeks ago, I was debugging this error from one of our students and they were experiencing the error “Stack too deep”. This usually happens when you declare a lot of variables in your function and the available stack space for that function is no longer available. As we saw in the Ethereum Storage level, the EVM only allows upto 16 variables within a single function as that it cannot perform operations beyond 16 levels of depth in the stack.
 
 Now even after moving a lot of the require statements in the `modifier` it wasn't helping because function modifiers use the same stack as the function on which they are put. To solve this issue we used an `internal` function inside the `modifier` because `internal` functions don't share the same restricted stack as the `original function` but `modifier` does.
+
+<Quiz questionId="07163f50-45f3-45aa-8e4d-801760b92737" />
+<Quiz questionId="317e398a-d2a8-49c5-b6fc-de79b04fdd55" />
 
 ## Use libraries
 
@@ -119,14 +128,16 @@ If you are using (||) or (&&) it's better to write your conditions in such a way
 
 Since conditional checks will stop the second they find the first value which satisfies the condition, you should put the variables most likely to validate/invalidate the condition first. In OR conditions (||), try to put the variable with the highest likelihood of being `true` first, and in AND conditions (&&), try to put the variable with the highest likelihood of being `false` first. As soon as that variable is checked, the conditional can exit without needing to check the other values, thereby saving gas.
 
+<Quiz questionId="dc5793a3-18c1-41f7-987d-cc3ae3bc0f18" />
+
 ## Free up Storage
 Since storage space costs gas, you can actually free up storage and delete unnecessary data to get gas refunds. So if you no longer need some state values, use the `delete` keyword in Solidity for some gas refunds.
 
 ## Short Error Strings
 Make sure that the error strings in your require statements are of very short length, the more the length of the string, the more gas it will cost.
 
-```solidity=
-require(counter >= 100, "NOT REACHED"); //good
+```solidity
+require(counter >= 100, "NOT REACHED"); // Good
 require(balance >= amount, "Counter is still to reach the value greater than or equal to 100, ............................................";
 ```
 The first requirement is more gas optimized than the second one.
@@ -137,7 +148,10 @@ The first requirement is more gas optimized than the second one.
 
 Thank you all for staying tuned to this article 🚀 Hope you liked it :)
 
+<Quiz questionId="c2222fea-abeb-4566-b981-01f85853592b" />
 
 ## References
 
 - Mudit Gupta - [Gas Optimizations Tips](https://mudit.blog/solidity-gas-optimization-tips/) and [Gas Optimizations Tips Part - 2](https://mudit.blog/solidity-tips-and-tricks-to-save-gas-and-reduce-bytecode-size/)
+
+<SubmitQuiz />
