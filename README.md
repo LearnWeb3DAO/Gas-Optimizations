@@ -119,7 +119,7 @@ Now even after moving a lot of the require statements in the `modifier` it wasn'
 
 ## Use libraries
 
-Libraries are stateless contracts that don't store any state. Now when you call a public function of a library from your contract, the bytecode of that function doesn't get deployed with your contract, and thus you can save some gas costs. For example, if you contract has functions to sort or to do maths etc. You can put them in a library and then call these library functions to do the maths or sorting for your contract. To read more about libraries follow this [link](https://jeancvllr.medium.com/solidity-tutorial-all-about-libraries-762e5a3692f9).
+Libraries are stateless contracts that don't store any state. Now when you call a public function of a library from your contract, the bytecode of that function doesn't get deployed with your contract, and thus you can save some gas costs. For example, if your contract has functions to sort or to do maths etc. You can put them in a library and then call these library functions to do the maths or sorting for your contract. To read more about libraries follow this [link](https://jeancvllr.medium.com/solidity-tutorial-all-about-libraries-762e5a3692f9).
 
 There is a small caveat however. If you are writing your own libraries, you will need to deploy them and pay gas - but once deployed, it can be reused by other smart contracts without deploying it themselves. Since they don't store any state, libraries only need to be deployed once to the blockchain and are assigned an address that the Solidity compiler is smart enough to figure out itself. Therefore, if you use libraries from OpenZeppelin for example, they will not add to your deployment cost.
 
