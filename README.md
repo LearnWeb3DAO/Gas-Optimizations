@@ -140,11 +140,57 @@ Make sure that the error strings in your require statements are of very short le
 require(counter >= 100, "NOT REACHED"); // Good
 require(balance >= amount, "Counter is still to reach the value greater than or equal to 100, ............................................";
 ```
-The first requirement is more gas optimized than the second one.
+The first requirement is more gas optimized than the second one
 
 > NOTE: In newer versions of Solidity, there are now custom errors using the `error` keyword which behave very similar to `events` and can achieve similar gas optimizations.
-
 ----
+
+
+## Declaring the constructor payable
+Declaring the constructor as payable can potentially save a small amount of gas when deploying a contract in Solidity. This is because the Solidity compiler will skip a set of opcodes that check whether the constructor is payable at runtime if the constructor is declared as payable, resulting in a smaller contract bytecode and fewer gas units required to execute it.What this actually does is that it skips this set of opcodes :
+* ```CALLVALUE```
+* ```DUP1```
+* ```ISZERO```
+* ```JUPMP1```
+* ```PUSH1```
+* ```DUP1```
+* ```REVERT```
+* ```JUMPDEST```
+* ```POP```
+if you were to convert this to solidity this equal to:
+```solidity
+ if(msg.value != 0) revert();
+```
+## Use preIncrement instead of postIncrement to save gas
+consider this two funtions:
+```solidity
+ uint256 num;
+ 
+ function postIncrement() external {
+   num++;
+ }
+  
+ function preIncrement() external {
+   ++num;
+ }
+ 
+```
+while both the functions perform the same functions, they don't actually cost the same gas, suprising right?,let's delve into this:
+In Solidity, the preIncrement operator (++x) increments a value and returns the incremented result, while the postIncrement operator (x++) returns the original value and then increments the value.
+
+The preIncrement operator can be implemented using a single ADD opcode, which increments the value of a storage slot or a memory location. On the other hand, the postIncrement operator requires two separate operations: one to retrieve the original value and another to increment the value.
+
+As a result, using preIncrement instead of postIncrement can potentially save gas by reducing the number of operations required
+
+## Declare variables that can be set to immutable as immutable
+let's assume you have a code that has a variable and that variable stores a value at construction time(before deployment),the variable get stored in code rather than storage,if you've read the yellow paper you should know every call to read from the storage costs 2100 gas comapred to reading from the code which only costs 3 gas
+```solidity
+ uint8 immmutable num;
+ uint8 immutable num2 = 34;
+ constructor(uint256 _num) payable {
+   num = _num;
+ }
+```
 
 Thank you all for staying tuned to this article 🚀 Hope you liked it :)
 
